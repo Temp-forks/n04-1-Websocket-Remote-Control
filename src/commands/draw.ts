@@ -79,7 +79,7 @@ class Draw {
   };
 
   send = (value: string = ''): void => {
-    const command = `draw_${this.type}${value}`;
+    const command = `draw_${this.type}\0${value}`;
     this.wsStream.write(command, 'utf-8');
   };
 

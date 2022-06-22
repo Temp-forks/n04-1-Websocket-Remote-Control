@@ -68,7 +68,7 @@ class Mouse {
   };
 
   send = (value: string = ''): void => {
-    const command = `mouse_${this.type}${value}`;
+    const command = `mouse_${this.type}${value}\0`;
     this.wsStream.write(command, 'utf-8');
   };
 }

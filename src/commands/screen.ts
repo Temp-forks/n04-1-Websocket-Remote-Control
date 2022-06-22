@@ -23,7 +23,7 @@ class Screen {
       height: img.height,
     });
     image.getBase64(Jimp.MIME_PNG, (error: Error | null, imgString: string) => {
-      wsStream.write(`prnt_scrn ${imgString.split(',')[1]}`, 'utf-8');
+      wsStream.write(`prnt_scrn ${imgString.split(',')[1]}\0`, 'utf-8');
     });
   }
 }
