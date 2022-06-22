@@ -1,4 +1,4 @@
-import { WebSocketServer } from 'ws';
+import { createWebSocketStream, WebSocketServer } from 'ws';
 import httpServer from './src/http_server';
 import handleCommand from './src/commands/handleCommand';
 
@@ -10,9 +10,8 @@ httpServer.listen(HTTP_PORT);
 const wss = new WebSocketServer({ port: 8080 });
 
 wss.on('connection', (ws) => {
-  ws.on('message', (data) => {
-    handleCommand(ws, data.toString());
-  });
+  const wsStream = createWebSocketStream(ws, { encoding: 'utf-8', decodeStrings: false });
+  handleCommand(wsStream);
 });
 
 process.on('SIGINT', () => {

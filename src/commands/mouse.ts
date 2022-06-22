@@ -1,13 +1,13 @@
 import robot from 'robotjs';
-import WebSocket from 'ws';
+import * as stream from 'stream';
 
 class Mouse {
-  ws!: WebSocket;
+  wsStream!: stream.Duplex;
 
   type!: string;
 
-  handle = (ws: WebSocket, type: string, value: string[]) => {
-    this.ws = ws;
+  handle = (ws: stream.Duplex, type: string, value: string[]) => {
+    this.wsStream = ws;
     this.type = type;
     const number = parseInt(value[0], 10);
     switch (this.type) {
@@ -69,7 +69,7 @@ class Mouse {
 
   send = (value: string = ''): void => {
     const command = `mouse_${this.type}${value}`;
-    this.ws.send(command);
+    this.wsStream.write(command, 'utf-8');
   };
 }
 

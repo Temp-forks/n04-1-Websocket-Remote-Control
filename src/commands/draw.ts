@@ -1,13 +1,13 @@
 import robot from 'robotjs';
-import WebSocket from 'ws';
+import * as stream from 'stream';
 
 class Draw {
-  ws!: WebSocket;
+  wsStream!: stream.Duplex;
 
   type!: string;
 
-  handle = (ws: WebSocket, type: string, value: string[]): void => {
-    this.ws = ws;
+  handle = (wsStream: stream.Duplex, type: string, value: string[]): void => {
+    this.wsStream = wsStream;
     this.type = type;
     switch (this.type) {
       case 'circle': {
@@ -80,16 +80,10 @@ class Draw {
 
   send = (value: string = ''): void => {
     const command = `draw_${this.type}${value}`;
-    this.ws.send(command);
+    this.wsStream.write(command, 'utf-8');
   };
 
-  calculateY = (
-    x: number,
-    x0: number,
-    y0: number,
-    r: number,
-    direction: number,
-  ): number => {
+  calculateY = (x: number, x0: number, y0: number, r: number, direction: number): number => {
     const c = -(r ** 2 - x ** 2 + 2 * x * x0 - x0 ** 2 - y0 ** 2);
     const d = Math.sqrt(y0 ** 2 - c);
     return y0 + d * direction;
