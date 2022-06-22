@@ -4,7 +4,7 @@ import handleCommand from './src/commands/handleCommand';
 
 const HTTP_PORT = 3000;
 
-process.stdout.write(`Start static http server on the ${HTTP_PORT} port!\n`);
+process.stdout.write(`Start static http server on http://localhost:${HTTP_PORT}!\n`);
 httpServer.listen(HTTP_PORT);
 
 const wss = new WebSocketServer({ port: 8080 });
