@@ -9,14 +9,14 @@ class HandleCommand {
   handle = (wsStream: stream.Duplex): void => {
     this.wsStream = wsStream;
     this.wsStream.on('data', (data) => {
-      const [command, type, ...value] = data.toString().split('_').join(' ').split(' ');
+      const [command, action, ...value] = data.toString().split('_').join(' ').split(' ');
       switch (command) {
         case 'draw': {
-          draw.handle(this.wsStream, type, value);
+          draw.handle(this.wsStream, action, value);
           break;
         }
         case 'mouse': {
-          mouse.handle(this.wsStream, type, value);
+          mouse.handle(this.wsStream, action, value);
           break;
         }
         case 'prnt': {

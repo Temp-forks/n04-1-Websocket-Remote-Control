@@ -4,12 +4,12 @@ import * as stream from 'stream';
 class Draw {
   wsStream!: stream.Duplex;
 
-  type!: string;
+  action!: string;
 
-  handle = (wsStream: stream.Duplex, type: string, value: string[]): void => {
+  handle = (wsStream: stream.Duplex, action: string, value: string[]): void => {
     this.wsStream = wsStream;
-    this.type = type;
-    switch (this.type) {
+    this.action = action;
+    switch (this.action) {
       case 'circle': {
         this.circle(+[value]);
         break;
@@ -79,7 +79,7 @@ class Draw {
   };
 
   send = (value: string = ''): void => {
-    const command = `draw_${this.type}\0${value}`;
+    const command = `draw_${this.action}\0${value}`;
     this.wsStream.write(command, 'utf-8');
   };
 

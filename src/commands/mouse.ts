@@ -4,13 +4,13 @@ import * as stream from 'stream';
 class Mouse {
   wsStream!: stream.Duplex;
 
-  type!: string;
+  action!: string;
 
-  handle = (ws: stream.Duplex, type: string, value: string[]) => {
+  handle = (ws: stream.Duplex, action: string, value: string[]) => {
     this.wsStream = ws;
-    this.type = type;
+    this.action = action;
     const number = parseInt(value[0], 10);
-    switch (this.type) {
+    switch (this.action) {
       case 'up': {
         this.up(number);
         break;
@@ -68,7 +68,7 @@ class Mouse {
   };
 
   send = (value: string = ''): void => {
-    const command = `mouse_${this.type}${value}\0`;
+    const command = `mouse_${this.action}${value}\0`;
     this.wsStream.write(command, 'utf-8');
   };
 }
