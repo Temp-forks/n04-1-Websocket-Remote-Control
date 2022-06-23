@@ -31,18 +31,19 @@ class Draw {
 
   circle = (radius: number) => {
     let { x, y } = robot.getMousePos();
+    robot.mouseClick('left', true);
     robot.mouseToggle('down');
     const x0 = x + radius;
     const y0 = y;
-    for (let i = x; i <= x0 + radius; i += 1) {
+    for (let i = x; i <= x0 + radius; i += 0.2) {
       x = i;
       y = this.calculateY(x, x0, y0, radius, -1);
-      robot.moveMouseSmooth(x, y);
+      robot.dragMouse(x, y);
     }
-    for (let i = x; i >= x0 - radius; i -= 1) {
+    for (let i = x; i >= x0 - radius; i -= 0.2) {
       x = i;
       y = this.calculateY(x, x0, y0, radius, 1);
-      robot.moveMouseSmooth(x, y);
+      robot.dragMouse(x, y);
     }
     robot.mouseToggle('up');
     this.send();
@@ -50,30 +51,32 @@ class Draw {
 
   rectangle = (widht: number, length: number) => {
     let { x, y } = robot.getMousePos();
+    robot.mouseClick('left', true);
     robot.mouseToggle('down');
     x += widht;
     robot.moveMouseSmooth(x, y);
     y += length;
-    robot.moveMouseSmooth(x, y);
-    x -= widht;
-    robot.moveMouseSmooth(x, y);
-    y -= length;
-    robot.moveMouseSmooth(x, y);
+    robot.moveMouseSmooth(x - 2, y);
+    x -= widht + 2;
+    robot.moveMouseSmooth(x, y - 2);
+    y -= length + 2;
+    robot.moveMouseSmooth(x + 2, y);
     robot.mouseToggle('up');
     this.send();
   };
 
   square = (length: number) => {
     let { x, y } = robot.getMousePos();
+    robot.mouseClick('left', true);
     robot.mouseToggle('down');
     x += length;
     robot.moveMouseSmooth(x, y);
     y += length;
-    robot.moveMouseSmooth(x, y);
-    x -= length;
-    robot.moveMouseSmooth(x, y);
-    y -= length;
-    robot.moveMouseSmooth(x, y);
+    robot.moveMouseSmooth(x - 2, y);
+    x -= length + 2;
+    robot.moveMouseSmooth(x, y - 2);
+    y -= length + 2;
+    robot.moveMouseSmooth(x + 2, y);
     robot.mouseToggle('up');
     this.send();
   };
