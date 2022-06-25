@@ -7,33 +7,37 @@ class Mouse {
   action!: string;
 
   handle = (ws: stream.Duplex, action: string, value: string[]) => {
-    this.wsStream = ws;
-    this.action = action;
-    const number = parseInt(value[0], 10);
-    switch (this.action) {
-      case 'up': {
-        this.up(number);
-        break;
+    try {
+      this.wsStream = ws;
+      this.action = action;
+      const number = parseInt(value[0], 10);
+      switch (this.action) {
+        case 'up': {
+          this.up(number);
+          break;
+        }
+        case 'right': {
+          this.right(number);
+          break;
+        }
+        case 'down': {
+          this.down(number);
+          break;
+        }
+        case 'left': {
+          this.left(number);
+          break;
+        }
+        case 'position': {
+          this.position();
+          break;
+        }
+        default: {
+          break;
+        }
       }
-      case 'right': {
-        this.right(number);
-        break;
-      }
-      case 'down': {
-        this.down(number);
-        break;
-      }
-      case 'left': {
-        this.left(number);
-        break;
-      }
-      case 'position': {
-        this.position();
-        break;
-      }
-      default: {
-        break;
-      }
+    } catch {
+      process.stdout.write('ERROR\n');
     }
   };
 
@@ -70,6 +74,7 @@ class Mouse {
   send = (value: string = ''): void => {
     const command = `mouse_${this.action}${value}\0`;
     this.wsStream.write(command, 'utf-8');
+    process.stdout.write(`Done: ${command}\n`);
   };
 }
 

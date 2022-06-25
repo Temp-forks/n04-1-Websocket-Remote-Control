@@ -9,6 +9,7 @@ class HandleCommand {
   handle = (wsStream: stream.Duplex): void => {
     this.wsStream = wsStream;
     this.wsStream.on('data', (data) => {
+      process.stdout.write(`Recieved: ${data}\n`);
       const [command, action, ...value] = data.toString().split('_').join(' ').split(' ');
       switch (command) {
         case 'draw': {

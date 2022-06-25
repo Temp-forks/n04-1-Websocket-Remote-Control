@@ -7,25 +7,29 @@ class Draw {
   action!: string;
 
   handle = (wsStream: stream.Duplex, action: string, value: string[]): void => {
-    this.wsStream = wsStream;
-    this.action = action;
-    switch (this.action) {
-      case 'circle': {
-        this.circle(+[value]);
-        break;
+    try {
+      this.wsStream = wsStream;
+      this.action = action;
+      switch (this.action) {
+        case 'circle': {
+          this.circle(+[value]);
+          break;
+        }
+        case 'rectangle': {
+          const [width, length] = value;
+          this.rectangle(+width, +length);
+          break;
+        }
+        case 'square': {
+          this.square(+[value]);
+          break;
+        }
+        default: {
+          break;
+        }
       }
-      case 'rectangle': {
-        const [width, length] = value;
-        this.rectangle(+width, +length);
-        break;
-      }
-      case 'square': {
-        this.square(+[value]);
-        break;
-      }
-      default: {
-        break;
-      }
+    } catch {
+      process.stdout.write('ERROR\n');
     }
   };
 
@@ -84,6 +88,7 @@ class Draw {
   send = (value: string = ''): void => {
     const command = `draw_${this.action}\0${value}`;
     this.wsStream.write(command, 'utf-8');
+    process.stdout.write(`Done: ${command}\n`);
   };
 
   calculateY = (x: number, x0: number, y0: number, r: number, direction: number): number => {
