@@ -12,10 +12,10 @@ const wss = new WebSocketServer({ port: 8080 });
 wss.on('connection', (ws) => {
   const wsStream = createWebSocketStream(ws, { encoding: 'utf-8', decodeStrings: false });
   handleCommand(wsStream);
-});
-
-process.on('SIGINT', () => {
-  process.stdout.write('Closing websocket...\n');
-  wss.close();
-  process.exit(0);
+  process.on('SIGINT', () => {
+    process.stdout.write('Closing websocket...\n');
+    ws.close();
+    wss.close();
+    process.exit(0);
+  });
 });
