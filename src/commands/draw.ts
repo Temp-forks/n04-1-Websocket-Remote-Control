@@ -64,7 +64,7 @@ class Draw {
     x -= widht + 2;
     robot.moveMouseSmooth(x, y - 2);
     y -= length + 2;
-    robot.moveMouseSmooth(x + 2, y);
+    robot.moveMouseSmooth(x + 2, y + 1);
     robot.mouseToggle('up');
     this.send();
   };
